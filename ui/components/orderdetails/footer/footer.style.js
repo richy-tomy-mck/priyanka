@@ -24,11 +24,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   likeBtnImage: {
-    width: "40%",
-    height: "40%",
+    width: "50%",
+    height: "50%",
     tintColor: "#F37453",
   },
-  applyBtn: {
+  createOrderBtn: {
     flex: 1,
     backgroundColor: "#FE7654",
     height: "100%",

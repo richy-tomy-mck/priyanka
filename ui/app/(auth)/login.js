@@ -13,6 +13,7 @@ export default function LogIn() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center", paddingBottom:'30%' }}>
+    <Stack.Screen options={{ title: "login", headerLeft: () => <></>}} />
       <View>
         <Text style={styles.label}>Email</Text>
         <TextInput

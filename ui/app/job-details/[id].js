@@ -11,7 +11,7 @@ import { useState, useCallback } from "react";
 import {
   Company,
   JobAbout,
-  JobFooter,
+  OrderFooter,
   JobTabs,
   ScreenHeaderBtn,
   Specifics,
