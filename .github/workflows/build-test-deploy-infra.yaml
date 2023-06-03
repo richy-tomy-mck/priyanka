@@ -36,6 +36,9 @@ jobs:
     name: Deploy Terraform
     # needs: [build-test-lambda]
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
     defaults:
       run:
         shell: bash
