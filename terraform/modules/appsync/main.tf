@@ -14,7 +14,7 @@ resource "aws_appsync_graphql_api" "this" {
   dynamic "openid_connect_config" {
     for_each = var.use_api_key ? [] : [1]
     content {
-      issuer    = var.oidc_issuer
+      issuer = var.oidc_issuer
       # client_id = var.oidc_client_id
     }
   }

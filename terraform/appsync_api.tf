@@ -1,14 +1,14 @@
 module "priyanka_api" {
   source = "./modules/appsync"
 
-  env                  = var.env
-  app_env              = local.app_env
-  name                 = "course-api"
-  region               = var.region
-  schema               = file("../api/schema.graphql")
-  oidc_issuer          = var.oidc_issuer
-  oidc_client_id       = var.oidc_client_id
-  use_api_key_for_auth = var.use_api_key_for_auth
+  env            = var.env
+  app_env        = local.app_env
+  name           = "course-api"
+  region         = var.region
+  schema         = file("../api/schema.graphql")
+  oidc_issuer    = var.oidc_issuer
+  oidc_client_id = var.oidc_client_id
+  use_api_key    = var.use_api_key
   statements = [
     {
       actions   = ["lambda:InvokeFunction"]
