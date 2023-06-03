@@ -20,18 +20,17 @@ const styles = StyleSheet.create({
   SigninButton: {
     paddingVertical: SIZES.small / 2,
     paddingHorizontal: SIZES.small,
-    borderRadius: SIZES.medium,
-    borderWidth: 1,
-    backgroundColor: COLORS.green,
-    borderColor: COLORS.secondary,
-    width: 150,
+    borderRadius: SIZES.small,
     marginTop: 2,
     justifyContent: "center",
+    width: 200,
+    backgroundColor: COLORS.tertiary,
     alignItems: "center",
   },
   ButtonText: {
-    marginBottom: 4,
-    color: COLORS.lightWhite,
+    fontSize: SIZES.medium,
+    color: COLORS.white,
+    fontFamily: FONT.bold,
   },
 });
 

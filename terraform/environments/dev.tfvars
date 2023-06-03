@@ -1,0 +1,6 @@
+app_name                         = "priyanka"
+env                              = "dev"
+region                           = "us-east-1"
+domain_name                      = ""
+oidc_issuer                      = ""
+oidc_client_id                   = ""

@@ -62,7 +62,7 @@ export default function LogIn() {
           router.push("/create-account");
         }}
       >
-        <Text style={styles.ButtonText}>Create Account</Text>
+        <Text style={styles.ButtonText}>Sign Up</Text>
       </TouchableOpacity>
     </View>
     </SafeAreaView>

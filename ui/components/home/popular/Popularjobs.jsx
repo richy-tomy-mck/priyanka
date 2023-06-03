@@ -18,11 +18,11 @@ const Popularjobs = () => {
   const router = useRouter();
 
 
-const [ selectedJob, setSelectedJob ] = useState()
+const [ selectedOrder, setSelectedOrder ] = useState()
 
 const handleCardPress = (item) => {
-  router.push(`/job-details/${item.job_id}`)
-  setSelectedJob(item.job_id)
+  router.push(`/order-details/${item.orderId}`)
+  setSelectedOrder(item.orderId)
 }
 
 
@@ -35,9 +35,9 @@ const data =[]
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Popular Jobs</Text>
+        <Text style={styles.headerTitle}>Orders</Text>
         <TouchableOpacity>
-          <Text style={styles.headerBtn}>Show all</Text>
+          <Text style={styles.headerBtn} onPress={()=> router.push(`/orders/orderlist`)}>Show all</Text>
         </TouchableOpacity>
         </View>
         <View style={styles.cardsContainer}>

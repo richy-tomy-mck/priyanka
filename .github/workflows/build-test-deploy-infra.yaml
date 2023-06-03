@@ -1,0 +1,89 @@
+name: build-test-deploy-infra
+
+on:
+  workflow_call:
+    inputs:
+      target:
+        required: true
+        type: string
+
+jobs:
+  # build-test-lambda:
+  #   name: Build & Test Lambda
+  #   runs-on: ubuntu-latest
+  #   environment: dev
+  #   defaults:
+  #     run:
+  #       shell: bash
+  #       working-directory: ${{ vars.LAMBDA_WORKING_DIR }}
+
+  #   steps:
+  #     - name: Clone Repo
+  #       uses: actions/checkout@v3
+
+  #     - name: Configure Node with Specified Version
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: ${{ vars.NODE_VERSION }}
+
+  #     - name: Install Dependencies
+  #       run: npm ci
+
+  #     - name: Unit Test Lambda
+  #       run: npm run test
+
+  infra-deploy:
+    name: Deploy Terraform
+    needs: [build-test-lambda]
+    runs-on: ubuntu-latest
+    environment: dev
+    permissions:
+      id-token: write
+      contents: read
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ vars.TF_WORKING_DIR }}
+
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::${{ vars.AWS_ACCOUNT_NUMBER }}:role/${{ vars.AWS_ROLE_NAME }}
+          aws-region: ${{ vars.REGION }}
+          role-session-name: priyanka-cicd
+
+      - name: Configure Node with Specified Version
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ vars.NODE_VERSION }}
+
+      # - name: Make Lambda
+      #   run: make
+      #   working-directory: ${{ vars.LAMBDA_WORKING_DIR }}
+        
+      # - name: Install Dependencies
+      #   run: npm ci
+      #   working-directory: ${{ vars.LAMBDA_WORKING_DIR }}
+
+      # - name: Build Lambda
+      #   run: npm run build
+      #   working-directory: ${{ vars.LAMBDA_WORKING_DIR }}
+
+      # - name: Install Prod Dependencies
+      #   run: npm ci --omit=dev
+      #   working-directory: ${{ vars.LAMBDA_WORKING_DIR }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ vars.TF_VERSION }}
+
+      - name: Terraform Init
+        run: terraform init -backend-config=${{ vars.TF_BACKEND_CONFIG }}
+
+      - name: Terraform Apply
+        run: terraform apply -var-file=${{ vars.TF_VARS_FILE }} --auto-approve

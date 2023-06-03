@@ -95,7 +95,7 @@ const Home = () => {
             setSearchTerm={setSearchTerm}
             handleClick={() => {
               if (searchTerm) {
-                router.push(`/search/${searchTerm}`);
+                router.push(`/orders/${searchTerm}`);
               }
             }}
           />
@@ -105,7 +105,7 @@ const Home = () => {
       </ScrollView>
       <Orders
             handleClick={() => {
-              router.push(`/orders/createOrder`);
+              router.push(`/orders/createorder`);
             }}
           />
     </SafeAreaView>

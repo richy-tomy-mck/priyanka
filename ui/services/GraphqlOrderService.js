@@ -1,28 +1,20 @@
-import GraphqlAPI from './gql-api'
+import GraphqlAPI from "./gql-api";
 
-export async function listAllOrders() {
-  console.log("List all orders")
+export async function listAllOrders(limit, nextToken) {
   const LIST_ALL_ORDERS = `query listPriyankaDevOrders {
-    listPriyankaDevOrders {
+    listPriyankaDevOrders(limit: ${limit}, nextToken: ${nextToken}) {
       items {
-        createdTime
         orderId
+        createdTime
         description
         weight
       }
+      nextToken
     }
-  }`
-  
-  try {
-    console.log("making query")
-  const data  = (await GraphqlAPI.query(LIST_ALL_ORDERS)) 
-  console.log(data)
-  return data.listPriyankaDevOrders
-}
-catch(err) {
-  console.log(err)
-}
+  }`;
 
+  const { data } = await GraphqlAPI.query(LIST_ALL_ORDERS);
+  return data.listPriyankaDevOrders;
 }
 
 export async function createOrder(CreatePriyankaDevOrdersInput) {
@@ -33,9 +25,9 @@ export async function createOrder(CreatePriyankaDevOrdersInput) {
       description
       weight
     }
-  }`
+  }`;
 
-  const { data } = (await GraphqlAPI.mutation(CREATE_ORDER))
+  const { data } = await GraphqlAPI.mutation(CREATE_ORDER);
 
-  return data.createPriyankaDevOrders
+  return data.createPriyankaDevOrders;
 }

@@ -45,7 +45,7 @@ const Welcome = ({ searchTerm, setSearchTerm, handleClick }) => {
           style={styles.tab(activeJobType, item)}
           onPress={()=>{
             setActiveJobType(item)
-            router.push(`/search/${item}`)
+            router.push(`/orders/${item}`)
           }}>
             <Text style={styles.tabText(activeJobType, item)}>
               {item}

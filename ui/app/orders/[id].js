@@ -2,65 +2,53 @@ import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, FlatList, Image, TouchableOpacity, View } from 'react-native'
 import { Stack, useRouter, useSearchParams } from 'expo-router'
 import { Text, SafeAreaView } from 'react-native'
-import axios from 'axios'
+import * as OrderService from "../../services/GraphqlOrderService";
 
 import { ScreenHeaderBtn, NearbyJobCard } from '../../components'
 import { COLORS, icons, SIZES } from '../../constants'
-import styles from '../../styles/search'
+import styles from '../../styles/orderlist'
 
-import { RAPID_API_KEY } from '@env';
 
-const rapidApiKey = RAPID_API_KEY;
-
-const JobSearch = () => {
-    const params = useSearchParams();
+const OrderList = () => {
+    // const params = useSearchParams();
     const router = useRouter()
 
-    const [searchResult, setSearchResult] = useState([]);
-    const [searchLoader, setSearchLoader] = useState(false);
-    const [searchError, setSearchError] = useState(null);
+    const [orders, setOrders] = useState([]);
+    const [fetchLoader, setFetchLoader] = useState(false);
+    const [fetchError, setFetchError] = useState(null);
     const [page, setPage] = useState(1);
+    const [nextToken, setnextToken] = useState(null);
+    const limit = 10;
 
-    const handleSearch = async () => {
-        setSearchLoader(true);
-        setSearchResult([])
+    const fetchOrders = async () => {
+        setFetchLoader(true);
 
         try {
-            const options = {
-                method: "GET",
-                url: `https://jsearch.p.rapidapi.com/search`,
-                headers: {
-                    "X-RapidAPI-Key": rapidApiKey,
-                    "X-RapidAPI-Host": "jsearch.p.rapidapi.com",
-                },
-                params: {
-                    query: params.id,
-                    page: page.toString(),
-                },
-            };
+            const result = await OrderService.listAllOrders(limit, nextToken)
+            console.log(result)
+            setOrders([...orders, ...result.items]);
+            setnextToken(result.nextToken)
 
-            const response = await axios.request(options);
-            setSearchResult(response.data.data);
         } catch (error) {
-            setSearchError(error);
+            setFetchError(error);
             console.log(error);
         } finally {
-            setSearchLoader(false);
+            setFetchLoader(false);
         }
     };
 
     const handlePagination = (direction) => {
         if (direction === 'left' && page > 1) {
             setPage(page - 1)
-            handleSearch()
+            fetchOrders()
         } else if (direction === 'right') {
             setPage(page + 1)
-            handleSearch()
+            fetchOrders()
         }
     }
 
     useEffect(() => {
-        handleSearch()
+        fetchOrders()
     }, [])
 
     return (
@@ -81,25 +69,25 @@ const JobSearch = () => {
             />
 
             <FlatList
-                data={searchResult}
+                data={orders}
                 renderItem={({ item }) => (
                     <NearbyJobCard
-                        job={item}
-                        handleNavigate={() => router.push(`/job-details/${item.job_id}`)}
+                        order={item}
+                        handleNavigate={() => router.push(`/order-details/${item.orderId}`)}
                     />
                 )}
-                keyExtractor={(item) => item.job_id}
+                keyExtractor={(item) => item.orderId}
                 contentContainerStyle={{ padding: SIZES.medium, rowGap: SIZES.medium }}
                 ListHeaderComponent={() => (
                     <>
                         <View style={styles.container}>
-                            <Text style={styles.searchTitle}>{params.id}</Text>
-                            <Text style={styles.noOfSearchedJobs}>Job Opportunities</Text>
+                            <Text style={styles.searchTitle}>All Orders</Text>
+                            <Text style={styles.noOfSearchedJobs}>{orders.length}</Text>
                         </View>
                         <View style={styles.loaderContainer}>
-                            {searchLoader ? (
+                            {fetchLoader ? (
                                 <ActivityIndicator size='large' color={COLORS.primary} />
-                            ) : searchError && (
+                            ) : fetchError && (
                                 <Text>Oops something went wrong</Text>
                             )}
                         </View>
@@ -120,7 +108,7 @@ const JobSearch = () => {
                         <View style={styles.paginationTextBox}>
                             <Text style={styles.paginationText}>{page}</Text>
                         </View>
-                        <TouchableOpacity
+                        {nextToken == null && <TouchableOpacity
                             style={styles.paginationButton}
                             onPress={() => handlePagination('right')}
                         >
@@ -129,7 +117,7 @@ const JobSearch = () => {
                                 style={styles.paginationImage}
                                 resizeMode="contain"
                             />
-                        </TouchableOpacity>
+                        </TouchableOpacity>}
                     </View>
                 )}
             />
@@ -137,4 +125,4 @@ const JobSearch = () => {
     )
 }
 
-export default JobSearch
+export default OrderList

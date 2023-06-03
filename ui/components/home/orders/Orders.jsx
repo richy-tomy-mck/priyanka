@@ -20,8 +20,8 @@ const Orders = ({ handleClick }) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.plusBtn} onPress={handleClick}>
-        <Image source={icons.plus} resizeMode="contain" style={styles.plusBtnImage} />
+      <TouchableOpacity style={styles.createOrderBtn} onPress={handleClick}>
+        <Image source={icons.plus} resizeMode="contain" style={styles.createOrderBtnImage} />
       </TouchableOpacity>
     </View>
   );

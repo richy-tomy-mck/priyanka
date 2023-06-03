@@ -4,27 +4,24 @@ import { COLORS, FONT, SIZES } from "../../../constants";
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-
-    // justifyContent: 'center',
     position: "absolute",
-    bottom: 0,
-    left: '40%',
+    bottom: 5,
+    left: '35%',
     padding: SIZES.small,
     flexDirection: "row",
     alignItems: 'center',
   },
-  plusBtn: {
-    width: 80,
+  createOrderBtn: {
+    width: 100,
     height: 60,
-    backgroundColor: COLORS.green,
+    backgroundColor: COLORS.tertiary,
     borderRadius: SIZES.medium,
     justifyContent: "center",
     alignItems: "center"
   },
-  plusBtnImage: {
-    width: "50%",
-    height: "50%",
+  createOrderBtnImage: {
+    width: "80%",
+    height: "80%",
     tintColor: COLORS.white,
   },
 
