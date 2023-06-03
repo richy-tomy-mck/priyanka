@@ -15,7 +15,7 @@ resource "aws_appsync_graphql_api" "this" {
     for_each = var.use_api_key ? [] : [1]
     content {
       issuer    = var.oidc_issuer
-      client_id = var.oidc_client_id
+      # client_id = var.oidc_client_id
     }
   }
   log_config {
