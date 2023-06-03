@@ -33,12 +33,12 @@ jobs:
   #       run: npm run test
 
   infra-deploy:
+  permissions:
+    id-token: write
+    contents: write
     name: Deploy Terraform
     # needs: [build-test-lambda]
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: write
     defaults:
       run:
         shell: bash
