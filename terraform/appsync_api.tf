@@ -9,7 +9,6 @@ module "course_api" {
   oidc_issuer          = var.oidc_issuer
   oidc_client_id       = var.oidc_client_id
   use_api_key_for_auth = var.use_api_key_for_auth
-  internal_ips         = var.internal_ips
   statements = [
     {
       actions   = ["lambda:InvokeFunction"]
