@@ -3,7 +3,7 @@ module "priyanka_api" {
 
   env            = var.env
   app_env        = local.app_env
-  name           = "course-api"
+  name           = "graphql-api"
   region         = var.region
   schema         = file("../api/schema.graphql")
   oidc_issuer    = var.oidc_issuer
