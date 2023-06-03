@@ -1,0 +1,114 @@
+﻿schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+type Mutation {
+  createPriyankaDevOrders(input: CreatePriyankaDevOrdersInput!): PriyankaDevOrders
+  deletePriyankaDevOrders(input: DeletePriyankaDevOrdersInput!): PriyankaDevOrders
+  updatePriyankaDevOrders(input: UpdatePriyankaDevOrdersInput!): PriyankaDevOrders
+}
+
+type PriyankaDevOrders {
+  createdTime: String!
+  description: String!
+  orderId: String!
+  weight: String
+}
+
+type PriyankaDevOrdersConnection {
+  items: [PriyankaDevOrders]
+  nextToken: String
+}
+
+type Query {
+  getPriyankaDevOrders(orderId: String!): PriyankaDevOrders
+  listPriyankaDevOrders(filter: TablePriyankaDevOrdersFilterInput, limit: Int, nextToken: String): PriyankaDevOrdersConnection
+}
+
+type Subscription {
+  onCreatePriyankaDevOrders(createdTime: String, description: String, orderId: String, weight: String): PriyankaDevOrders @aws_subscribe(mutations : ["createPriyankaDevOrders"])
+  onDeletePriyankaDevOrders(createdTime: String, description: String, orderId: String, weight: String): PriyankaDevOrders @aws_subscribe(mutations : ["deletePriyankaDevOrders"])
+  onUpdatePriyankaDevOrders(createdTime: String, description: String, orderId: String, weight: String): PriyankaDevOrders @aws_subscribe(mutations : ["updatePriyankaDevOrders"])
+}
+
+input CreatePriyankaDevOrdersInput {
+  createdTime: String!
+  description: String!
+  orderId: String!
+  weight: String
+}
+
+input DeletePriyankaDevOrdersInput {
+  orderId: String!
+}
+
+input TableBooleanFilterInput {
+  eq: Boolean
+  ne: Boolean
+}
+
+input TableFloatFilterInput {
+  between: [Float]
+  contains: Float
+  eq: Float
+  ge: Float
+  gt: Float
+  le: Float
+  lt: Float
+  ne: Float
+  notContains: Float
+}
+
+input TableIDFilterInput {
+  beginsWith: ID
+  between: [ID]
+  contains: ID
+  eq: ID
+  ge: ID
+  gt: ID
+  le: ID
+  lt: ID
+  ne: ID
+  notContains: ID
+}
+
+input TableIntFilterInput {
+  between: [Int]
+  contains: Int
+  eq: Int
+  ge: Int
+  gt: Int
+  le: Int
+  lt: Int
+  ne: Int
+  notContains: Int
+}
+
+input TablePriyankaDevOrdersFilterInput {
+  createdTime: TableStringFilterInput
+  description: TableStringFilterInput
+  orderId: TableStringFilterInput
+  weight: TableStringFilterInput
+}
+
+input TableStringFilterInput {
+  beginsWith: String
+  between: [String]
+  contains: String
+  eq: String
+  ge: String
+  gt: String
+  le: String
+  lt: String
+  ne: String
+  notContains: String
+}
+
+input UpdatePriyankaDevOrdersInput {
+  createdTime: String
+  description: String
+  orderId: String!
+  weight: String
+}
