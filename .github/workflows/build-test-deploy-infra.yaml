@@ -1,5 +1,9 @@
 name: build-test-deploy-infra
 
+permissions:
+  id-token: write
+  contents: write
+
 on:
   workflow_call:
 
@@ -32,9 +36,6 @@ jobs:
     name: Deploy Terraform
     # needs: [build-test-lambda]
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
     defaults:
       run:
         shell: bash
