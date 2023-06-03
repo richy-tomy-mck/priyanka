@@ -1,4 +1,4 @@
-module "course_api" {
+module "priyanka_api" {
   source = "./modules/appsync"
 
   env                  = var.env
