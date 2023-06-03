@@ -1,5 +1,9 @@
 name: main-pipeline
 
+permissions:
+  id-token: write
+  contents: write
+
 on:
 # workflow triggers when changes are pushed to remote branches specified
   push:
