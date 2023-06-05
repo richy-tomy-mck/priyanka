@@ -30,6 +30,12 @@ const styles = StyleSheet.create({
     tintColor: "#F37453",
   },
 
+  statusImage: {
+    width: "100%",
+    height: "100%",
+    tintColor: "#F37453",
+  },
+
   descriptionContainer: {
     justifyContent: "center",
     alignItems: "center",
@@ -45,6 +51,42 @@ const styles = StyleSheet.create({
     borderRadius: SIZES.medium,
     height: "100%",
     width: "80%"
+  },
+
+  orderStatusDropDownPicker:{
+    backgroundColor: COLORS.white,
+    borderColor: COLORS.white,
+    zIndex: 1
+  },
+  orderStatusContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    marginTop: SIZES.large,
+    height: 50,
+    zIndex: 1
+  },
+
+  createdDateWrapper: {
+    marginTop: 20,
+    backgroundColor: COLORS.white,
+    marginLeft: SIZES.small,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: SIZES.medium,
+    height: 50,
+    width: "95%"
+  },
+
+  orderStatusWrapper: {
+    backgroundColor: COLORS.white,
+    marginLeft: SIZES.small,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: SIZES.medium,
+    width: "78%",
+    height: 50,
+    zIndex: 1
   },
 
   weightContainer: {
@@ -65,6 +107,13 @@ const styles = StyleSheet.create({
   },
 
   descriptionImageWrapper: {
+    backgroundColor: COLORS.white,
+    marginRight: SIZES.small,
+    borderRadius: SIZES.medium,
+    width: 50,
+  },
+
+  statusImageWrapper: {
     backgroundColor: COLORS.white,
     marginRight: SIZES.small,
     borderRadius: SIZES.medium,

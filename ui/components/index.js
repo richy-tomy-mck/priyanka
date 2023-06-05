@@ -6,12 +6,13 @@ import Nearbyjobs from "./home/nearby/Nearbyjobs";
 import Popularjobs from "./home/popular/Popularjobs";
 import Orders from "./home/orders/Orders";
 
-// job details screen
-import Company from "./orderdetails/company/Company";
-import { default as JobTabs } from "./orderdetails/tabs/Tabs";
-import { default as JobAbout } from "./orderdetails/about/About";
-import { default as OrderFooter } from "./orderdetails/footer/Footer";
-import Specifics from "./orderdetails/specifics/Specifics";
+// create order screen
+import { default as CreateOrderFooter } from "./createorder/footer/Footer";
+import Specifics from "./createorder/specifics/Specifics";
+
+// order details screen
+import { default as OrderDetailsFooter } from "./orderdetails/footer/Footer";
+
 
 // common
 import NearbyJobCard from "./common/cards/nearby/NearbyJobCard";
@@ -21,10 +22,8 @@ export {
   Welcome,
   Nearbyjobs,
   Popularjobs,
-  Company,
-  JobTabs,
-  JobAbout,
-  OrderFooter,
+  CreateOrderFooter,
+  OrderDetailsFooter,
   Specifics,
   NearbyJobCard,
   Orders

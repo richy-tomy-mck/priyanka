@@ -12,10 +12,7 @@ import styles from "../../styles/create-orders";
 import { Stack, useRouter, useSearchParams } from "expo-router";
 import { useState, useCallback } from "react";
 import {
-  Company,
-  JobAbout,
-  OrderFooter,
-  JobTabs,
+  CreateOrderFooter,
   ScreenHeaderBtn,
   Specifics,
 } from "../../components";
@@ -94,7 +91,7 @@ const CreateOrder = () => {
           </View>
         </ScrollView>
 
-        <OrderFooter description={description} weight={weight}/>
+        <CreateOrderFooter description={description} weight={weight}/>
       </>
     </SafeAreaView>
   );

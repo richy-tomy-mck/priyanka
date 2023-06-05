@@ -28,16 +28,16 @@ const styles = StyleSheet.create({
     height: "50%",
     tintColor: "#F37453",
   },
-  updateOrderBtn: (edited) => ( {
+  createOrderBtn: {
     flex: 1,
-    backgroundColor: edited ? COLORS.tertiary : COLORS.gray,
-    height: 55,
+    backgroundColor: "#FE7654",
+    height: "100%",
     justifyContent: "center",
     alignItems: "center",
     marginLeft: SIZES.medium,
     borderRadius: SIZES.medium,
-  }),
-  saveBtnText: {
+  },
+  applyBtnText: {
     fontSize: SIZES.medium,
     color: COLORS.white,
     fontFamily: FONT.bold,

@@ -5,28 +5,35 @@ import { useRouter } from "expo-router";
 import styles from "./footer.style";
 import { icons } from "../../../constants";
 import * as OrderService from "../../../services/GraphqlOrderService";
+import uuid from 'react-native-uuid';
 
-const Footer = ({updateOrderInput, edited}) => {
+const Footer = ({ description, weight }) => {
   const router = useRouter();
   return (
     <View style={styles.container}>
-      {/* <TouchableOpacity style={styles.likeBtn}>
+      <TouchableOpacity style={styles.likeBtn}>
         <Image
           source={icons.image}
           resizeMode="contain"
           style={styles.likeBtnImage}
         />
-      </TouchableOpacity> */}
+      </TouchableOpacity>
 
       <TouchableOpacity
-        style={styles.updateOrderBtn(edited)}
-        disabled={!edited}
+        style={styles.createOrderBtn}
         onPress={async () => {
-          const result = await OrderService.updateOrder(updateOrderInput);
+          const CreateOrderInput = {
+            orderId: uuid.v4(),
+            createdTime: Date.now(),
+            description,
+            weight,
+          };
+          console.log(CreateOrderInput);
+          const result = await OrderService.createOrder(CreateOrderInput);
           router.back()
         }}
       >
-        <Text style={styles.saveBtnText}>Save</Text>
+        <Text style={styles.applyBtnText}>Create Order</Text>
       </TouchableOpacity>
     </View>
   );

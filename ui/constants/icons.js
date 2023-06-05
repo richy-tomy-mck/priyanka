@@ -12,6 +12,7 @@ import plus from '../assets/icons/plus.png'
 import image from '../assets/icons/image.png'
 import description from '../assets/icons/description.png'
 import weight from '../assets/icons/weight.png'
+import status from '../assets/icons/status.png'
 
 export default {
   heart,
@@ -27,5 +28,6 @@ export default {
   plus,
   image,
   description,
-  weight
+  weight,
+  status
 };

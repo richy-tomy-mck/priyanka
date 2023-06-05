@@ -1,67 +1,63 @@
 import {
+  TextInput,
   Text,
   View,
   SafeAreaView,
   ScrollView,
+  Image,
   ActivityIndicator,
   RefreshControl,
 } from "react-native";
+import DropDownPicker from "react-native-dropdown-picker";
+import styles from "../../styles/create-orders";
 import { Stack, useRouter, useSearchParams } from "expo-router";
-import { useState, useCallback } from "react";
+import { useState, useEffect } from "react";
+import * as OrderService from "../../services/GraphqlOrderService";
 import {
-  Company,
-  JobAbout,
-  OrderFooter,
-  JobTabs,
+
+  OrderDetailsFooter,
   ScreenHeaderBtn,
-  Specifics,
+
 } from "../../components";
 import { COLORS, icons, SIZES } from "../../constants";
-import useFetch from "../../hook/useFetch";
 
-const tabs = ["About", "Qualifications", "Responsibilities"];
-
-const JobDetails = () => {
+const OrderDetails = () => {
   const params = useSearchParams();
   const router = useRouter();
 
-  const { data, isLoading, error, refetch } = useFetch("job-details", {
-    job_id: params.id,
-  });
+  const [order, setOrder] = useState({});
+  const [edited, setEdited] = useState(false)
+  const [fetchLoader, setFetchLoader] = useState(false);
+  const [fetchError, setFetchError] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("order-received");
+  const [items, setItems] = useState([
+    { label: "Order Received", value: "order-received" },
+    { label: "Work in Progress", value: "work-in-progress" },
+    { label: "Delivered", value: "delivered" },
+    { label: "Order Completed", value: "order-completed" },
+  ]);
 
-  const [refreshing, setRefreshing] = useState(false);
-  const [activeTab, setActiveTab] = useState(tabs[0]);
+  const fetchOrder = async () => {
+    setFetchLoader(true);
 
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    refetch();
-    setRefreshing(false);
-  }, []);
-
-  const displayTabContent = () => {
-    switch (activeTab) {
-      case "Qualifications":
-        return (
-          <Specifics
-            title="Qualifications"
-            points={data[0].job_highlights?.Qualifications ?? ["N/A"]}
-          />
-        );
-      case "About":
-        return (
-          <JobAbout info={data[0].job_description ?? "No data provided"} />
-        );
-      case "Responsibilities":
-        return (
-          <Specifics
-            title="Responsibilities"
-            points={data[0].job_highlights?.Responsibilities ?? ["N/A"]}
-          />
-        );
-      default:
-        break;
+    try {
+      const result = await OrderService.getOrderById(params.id);
+      setOrder(result);
+      console.log(result);
+    } catch (error) {
+      setFetchError(error);
+      console.log(error);
+    } finally {
+      setFetchLoader(false);
     }
   };
+
+  useEffect(() => {
+    fetchOrder();
+  }, []);
+
+  const date = new Date(order.createdTime);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
@@ -84,38 +80,89 @@ const JobDetails = () => {
         }}
       />
       <>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        >
-          {(
-            <View style={{ padding: SIZES.medium, paddingBottom: 100 }}>
-              <Company
-                jobTitle={data[0].job_title}
-                companyName={data[0].employer_name}
-                location={data[0].job_country}
-              />
-              <JobTabs
-                tabs={tabs}
-                activeTab={activeTab}
-                setActiveTab={setActiveTab}
-              />
-              {displayTabContent()}
-            </View>
-          )}
-        </ScrollView>
+        <View style={styles.descriptionContainer}>
+          <View style={styles.descriptionImageWrapper}>
+            <Image
+              source={icons.description}
+              resizeMode="contain"
+              style={styles.descriptionImage}
+            />
+          </View>
+          <View style={styles.descriptionWrapper}>
+            <TextInput
+              placeholder=""
+              nativeID="description"
+              onChangeText={(text) => {
+                const updatedOrder = {...order, description:text};
+                setOrder(updatedOrder)
+                setEdited(true)
+              }}
+              value={order.description}
+              style={styles.descriptionInput}
+            />
+          </View>
+        </View>
 
-        <OrderFooter
-          url={
-            data[0]?.job_google_link ??
-            "https://careers.google.com/jobs/results"
-          }
-        />
+        <View style={styles.weightContainer}>
+          <View style={styles.descriptionImageWrapper}>
+            <Image
+              source={icons.weight}
+              resizeMode="contain"
+              style={styles.descriptionImage}
+            />
+          </View>
+          <View style={styles.weightWrapper}>
+            <TextInput
+              placeholder=""
+              nativeID="weight"
+              keyboardType="numeric"
+              value={order.weight}
+              onChangeText={(text) => {
+                const updatedOrder = {...order, weight:text};
+                setOrder(updatedOrder)
+                setEdited(true)
+              }}
+              style={styles.descriptionInput}
+            />
+          </View>
+          <Text>grams</Text>
+        </View>
+
+        <View style={styles.orderStatusContainer}>
+          <View style={styles.statusImageWrapper}>
+            <Image
+              source={icons.status}
+              resizeMode="contain"
+              style={styles.statusImage}
+            />
+          </View>
+          <View style={styles.orderStatusWrapper}>
+            <DropDownPicker
+              open={open}
+              value={order.orderStatus ? order.orderStatus : value}
+              items={items}
+              setOpen={setOpen}
+              setValue={setValue}
+              onSelectItem={(item) => {
+                console.log(item);
+                const updatedOrder = {...order, orderStatus:item.value};
+                setOrder(updatedOrder)
+                setEdited(true)
+              }}
+              setItems={setItems}
+              disableBorderRadius={true}
+              style={styles.orderStatusDropDownPicker}
+            />
+          </View>
+        </View>
+
+        <View style={styles.createdDateWrapper}>
+          <Text>Order created on {Date(parseInt(order.createdTime))}</Text>
+        </View>
       </>
+      <OrderDetailsFooter updateOrderInput={order} edited={edited}/>
     </SafeAreaView>
   );
 };
 
-export default JobDetails;
+export default OrderDetails;
