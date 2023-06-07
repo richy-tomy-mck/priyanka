@@ -1,114 +1,128 @@
-﻿schema {
-  query: Query
-  mutation: Mutation
-  subscription: Subscription
-}
-
-type Mutation {
-  createPriyankaDevOrders(input: CreatePriyankaDevOrdersInput!): PriyankaDevOrders
-  deletePriyankaDevOrders(input: DeletePriyankaDevOrdersInput!): PriyankaDevOrders
-  updatePriyankaDevOrders(input: UpdatePriyankaDevOrdersInput!): PriyankaDevOrders
-}
-
-type PriyankaDevOrders {
-  createdTime: String!
-  description: String!
-  orderId: String!
-  weight: String
-}
-
-type PriyankaDevOrdersConnection {
-  items: [PriyankaDevOrders]
-  nextToken: String
-}
-
-type Query {
-  getPriyankaDevOrders(orderId: String!): PriyankaDevOrders
-  listPriyankaDevOrders(filter: TablePriyankaDevOrdersFilterInput, limit: Int, nextToken: String): PriyankaDevOrdersConnection
-}
-
-type Subscription {
-  onCreatePriyankaDevOrders(createdTime: String, description: String, orderId: String, weight: String): PriyankaDevOrders @aws_subscribe(mutations : ["createPriyankaDevOrders"])
-  onDeletePriyankaDevOrders(createdTime: String, description: String, orderId: String, weight: String): PriyankaDevOrders @aws_subscribe(mutations : ["deletePriyankaDevOrders"])
-  onUpdatePriyankaDevOrders(createdTime: String, description: String, orderId: String, weight: String): PriyankaDevOrders @aws_subscribe(mutations : ["updatePriyankaDevOrders"])
-}
-
-input CreatePriyankaDevOrdersInput {
-  createdTime: String!
-  description: String!
-  orderId: String!
-  weight: String
+﻿input CreatePriyankaDevOrdersInput {
+	orderId: String!
+	createdTime: String!
+	description: String!
+	weight: String
 }
 
 input DeletePriyankaDevOrdersInput {
-  orderId: String!
+	orderId: String!
+}
+
+type Mutation {
+	createPriyankaDevOrders(input: CreatePriyankaDevOrdersInput!): PriyankaDevOrders
+	updatePriyankaDevOrders(input: UpdatePriyankaDevOrdersInput!): PriyankaDevOrders
+	deletePriyankaDevOrders(input: DeletePriyankaDevOrdersInput!): PriyankaDevOrders
+}
+
+type PriyankaDevOrders {
+	orderId: String!
+	createdTime: String!
+	description: String!
+	weight: String
+	orderStatus: String
+}
+
+type PriyankaDevOrdersConnection {
+	items: [PriyankaDevOrders]
+	nextToken: String
+}
+
+type Query {
+	getPriyankaDevOrders(orderId: String!): PriyankaDevOrders
+	listPriyankaDevOrders(filter: TablePriyankaDevOrdersFilterInput, limit: Int, nextToken: String): PriyankaDevOrdersConnection
+}
+
+type Subscription {
+	onCreatePriyankaDevOrders(
+		orderId: String,
+		createdTime: String,
+		description: String,
+		weight: String
+	): PriyankaDevOrders
+		@aws_subscribe(mutations: ["createPriyankaDevOrders"])
+	onUpdatePriyankaDevOrders(
+		orderId: String,
+		createdTime: String,
+		description: String,
+		weight: String
+	): PriyankaDevOrders
+		@aws_subscribe(mutations: ["updatePriyankaDevOrders"])
+	onDeletePriyankaDevOrders(
+		orderId: String,
+		createdTime: String,
+		description: String,
+		weight: String
+	): PriyankaDevOrders
+		@aws_subscribe(mutations: ["deletePriyankaDevOrders"])
 }
 
 input TableBooleanFilterInput {
-  eq: Boolean
-  ne: Boolean
+	ne: Boolean
+	eq: Boolean
 }
 
 input TableFloatFilterInput {
-  between: [Float]
-  contains: Float
-  eq: Float
-  ge: Float
-  gt: Float
-  le: Float
-  lt: Float
-  ne: Float
-  notContains: Float
+	ne: Float
+	eq: Float
+	le: Float
+	lt: Float
+	ge: Float
+	gt: Float
+	contains: Float
+	notContains: Float
+	between: [Float]
 }
 
 input TableIDFilterInput {
-  beginsWith: ID
-  between: [ID]
-  contains: ID
-  eq: ID
-  ge: ID
-  gt: ID
-  le: ID
-  lt: ID
-  ne: ID
-  notContains: ID
+	ne: ID
+	eq: ID
+	le: ID
+	lt: ID
+	ge: ID
+	gt: ID
+	contains: ID
+	notContains: ID
+	between: [ID]
+	beginsWith: ID
 }
 
 input TableIntFilterInput {
-  between: [Int]
-  contains: Int
-  eq: Int
-  ge: Int
-  gt: Int
-  le: Int
-  lt: Int
-  ne: Int
-  notContains: Int
+	ne: Int
+	eq: Int
+	le: Int
+	lt: Int
+	ge: Int
+	gt: Int
+	contains: Int
+	notContains: Int
+	between: [Int]
 }
 
 input TablePriyankaDevOrdersFilterInput {
-  createdTime: TableStringFilterInput
-  description: TableStringFilterInput
-  orderId: TableStringFilterInput
-  weight: TableStringFilterInput
+	orderId: TableStringFilterInput
+	createdTime: TableStringFilterInput
+	description: TableStringFilterInput
+	weight: TableStringFilterInput
 }
 
 input TableStringFilterInput {
-  beginsWith: String
-  between: [String]
-  contains: String
-  eq: String
-  ge: String
-  gt: String
-  le: String
-  lt: String
-  ne: String
-  notContains: String
+	ne: String
+	eq: String
+	le: String
+	lt: String
+	ge: String
+	gt: String
+	contains: String
+	notContains: String
+	between: [String]
+	beginsWith: String
 }
 
 input UpdatePriyankaDevOrdersInput {
-  createdTime: String
-  description: String
-  orderId: String!
-  weight: String
+	orderId: String!
+	createdTime: String
+	description: String
+	weight: String
+	orderStatus: String
 }

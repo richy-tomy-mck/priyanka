@@ -16,3 +16,15 @@ module "priyanka_api" {
     }
   ]
 }
+
+
+resource "aws_appsync_datasource" "priyanka-orders" {
+  api_id           = module.priyanka_api.appsync_id
+  name             = "priyanka${var.env}orders"
+  service_role_arn = module.priyanka_api.appsync_role_arn
+  type             = "AMAZON_DYNAMODB"
+
+  dynamodb_config {
+    table_name = aws_dynamodb_table.priyanka-orders.name
+  }
+}
